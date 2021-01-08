@@ -133,7 +133,7 @@ for data in iter(sys.stdin.readline, ""):
 		// Class inherits from EventState, state description is in the docstring.
 		var name_desc_pattern = /class (\w+)\(EventState\):(?:\n\r?\s+(?:'''|""")\n?\r?((?:\s*(?:.*?)\n?\r?\s*)*?)(?:'''|"""))?/i;
 		// Return all params as list
-		var param_pattern = /def __init__\(self, ?([^)]+)\):/i;
+		var param_pattern = /def __init__\(\s*self, ?([^)]+)\):/i;
 		// Extract parameters of super class call, such as outcomes.
 		var super_pattern = /super\(.*\)\.__init__\(((?:.|\s)*?)\)/i;
 
@@ -360,7 +360,7 @@ for data in iter(sys.stdin.readline, ""):
 			if (c == "(" || c == "[" || c == "{") depth += 1;
 			if (c == ")" || c == "]" || c == "}") depth -= 1;
 
-			if (depth == 0 || depth == 1 && c == ",") {
+			if ((depth == 0 || depth == 1 && c == ",") && last_split != i) {
 				result.push(code.substring(last_split, i).trim());
 				last_split = i + 1; // skip comma
 			}
